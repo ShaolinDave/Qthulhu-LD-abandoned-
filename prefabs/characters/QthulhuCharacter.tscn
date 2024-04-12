@@ -1,0 +1,160 @@
+[gd_scene load_steps=19 format=3 uid="uid://xujos5a8xtfr"]
+
+[ext_resource type="Script" path="res://scripts/gameCharacters/mover.gd" id="1_w5rgw"]
+[ext_resource type="PackedScene" uid="uid://dg77n76tkxj0t" path="res://prefabs/system/ai_input.tscn" id="2_tiamh"]
+[ext_resource type="AudioStream" uid="uid://cqo8bu01nftkj" path="res://audio/qthulhuJump.wav" id="3_wjq4y"]
+[ext_resource type="AudioStream" uid="uid://bv8bf4uousjye" path="res://audio/qthulhuLand.wav" id="4_74v1i"]
+[ext_resource type="Texture2D" uid="uid://w3qbvtyyn7uk" path="res://images/qthulu.png" id="5_6pdpt"]
+[ext_resource type="Texture2D" uid="uid://b3tixlnckdnt6" path="res://images/shadow.png" id="6_v3p0l"]
+[ext_resource type="Script" path="res://scripts/gameCharacters/snap_on_tilemap.gd" id="7_df00p"]
+[ext_resource type="Script" path="res://scripts/system/reparentToRoot.gd" id="8_rjdjh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ua03d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbj7f"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(144, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouvxy"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(144, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi0ww"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(0, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8ivl"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvvb5"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(48, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ipj7"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4wgp"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(96, 64, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axuia"]
+atlas = ExtResource("5_6pdpt")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dogqn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbj7f")
+}],
+"loop": true,
+"name": &"down_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouvxy")
+}],
+"loop": true,
+"name": &"down_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi0ww")
+}],
+"loop": true,
+"name": &"left_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ivl")
+}],
+"loop": true,
+"name": &"left_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvvb5")
+}],
+"loop": true,
+"name": &"right_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ipj7")
+}],
+"loop": true,
+"name": &"right_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4wgp")
+}],
+"loop": true,
+"name": &"up_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axuia")
+}],
+"loop": true,
+"name": &"up_stand",
+"speed": 5.0
+}]
+
+[node name="Qthulhu" type="CharacterBody2D"]
+z_as_relative = false
+y_sort_enabled = true
+collision_layer = 16
+collision_mask = 11
+motion_mode = 1
+
+[node name="Mover" type="Node" parent="."]
+script = ExtResource("1_w5rgw")
+jumpHeight = 16
+
+[node name="AI Input" parent="." instance=ExtResource("2_tiamh")]
+thinkTimer = 0.3
+state = 1
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_wjq4y")
+volume_db = -5.0
+max_distance = 100.0
+
+[node name="LandSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_74v1i")
+volume_db = -3.0
+max_distance = 200.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.25, 0.75)
+shape = SubResource("RectangleShape2D_ua03d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(2.08165e-12, 2.08165e-12)
+sprite_frames = SubResource("SpriteFrames_dogqn")
+animation = &"down_stand"
+autoplay = "down_stand"
+offset = Vector2(2.08165e-12, -32)
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = 1
+z_as_relative = false
+y_sort_enabled = true
+texture = ExtResource("6_v3p0l")
+
+[node name="SnapOnTilemap" type="Node" parent="."]
+script = ExtResource("7_df00p")
+
+[node name="ReparentToRoot" type="Node" parent="."]
+script = ExtResource("8_rjdjh")

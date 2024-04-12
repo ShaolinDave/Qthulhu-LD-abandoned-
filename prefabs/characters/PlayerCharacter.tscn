@@ -1,0 +1,162 @@
+[gd_scene load_steps=19 format=3 uid="uid://b3sb7x8cae4ok"]
+
+[ext_resource type="Script" path="res://scripts/system/playerToGameManager.gd" id="1_kd5l2"]
+[ext_resource type="Script" path="res://scripts/gameCharacters/mover.gd" id="1_n127a"]
+[ext_resource type="Script" path="res://scripts/system/reparentToRoot.gd" id="1_ynwpl"]
+[ext_resource type="Script" path="res://scripts/gameCharacters/player_input.gd" id="2_kwag5"]
+[ext_resource type="AudioStream" uid="uid://b6tj0biw7eekv" path="res://audio/playerJump.wav" id="3_xof0u"]
+[ext_resource type="Texture2D" uid="uid://d0dvjfffug3mi" path="res://images/characterSprites.png" id="4_pyq76"]
+[ext_resource type="Texture2D" uid="uid://b3tixlnckdnt6" path="res://images/shadow.png" id="5_qirfw"]
+[ext_resource type="Script" path="res://scripts/gameCharacters/snap_on_tilemap.gd" id="6_2q87c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ua03d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4old8"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(48, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oqoqg"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtbtf"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(0, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kaby8"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1ne0"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d476"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rns06"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(32, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v8td"]
+atlas = ExtResource("4_pyq76")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dogqn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4old8")
+}],
+"loop": true,
+"name": &"down_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oqoqg")
+}],
+"loop": true,
+"name": &"down_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtbtf")
+}],
+"loop": true,
+"name": &"left_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kaby8")
+}],
+"loop": true,
+"name": &"left_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1ne0")
+}],
+"loop": true,
+"name": &"right_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d476")
+}],
+"loop": true,
+"name": &"right_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rns06")
+}],
+"loop": true,
+"name": &"up_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v8td")
+}],
+"loop": true,
+"name": &"up_stand",
+"speed": 5.0
+}]
+
+[node name="PlayerCharacter" type="CharacterBody2D"]
+z_as_relative = false
+y_sort_enabled = true
+collision_mask = 54
+motion_mode = 1
+
+[node name="Mover" type="Node" parent="."]
+script = ExtResource("1_n127a")
+moveSpeed = 1.4
+jumpHeight = 24
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("2_kwag5")
+
+[node name="ReparentToRoot" type="Node" parent="PlayerInput"]
+script = ExtResource("1_ynwpl")
+
+[node name="PlayerToGameManager" type="Node" parent="."]
+script = ExtResource("1_kd5l2")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_xof0u")
+volume_db = -8.0
+max_distance = 500.0
+
+[node name="AudioListener2D" type="AudioListener2D" parent="JumpSound"]
+current = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.25)
+shape = SubResource("RectangleShape2D_ua03d")
+debug_color = Color(0, 0.258824, 0, 0.784314)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+z_as_relative = false
+position = Vector2(2.08165e-12, 2.08165e-12)
+sprite_frames = SubResource("SpriteFrames_dogqn")
+animation = &"down_stand"
+autoplay = "down_stand"
+offset = Vector2(2.08165e-12, -16)
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = 1
+z_as_relative = false
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_qirfw")
+
+[node name="SnapOnTilemap" type="Node" parent="."]
+script = ExtResource("6_2q87c")

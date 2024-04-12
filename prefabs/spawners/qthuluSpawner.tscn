@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct3mcsbik77ra"]
+
+[ext_resource type="Script" path="res://scripts/spawners/qthuluSpawner.gd" id="1_cxq21"]
+[ext_resource type="PackedScene" uid="uid://xujos5a8xtfr" path="res://prefabs/characters/QthulhuCharacter.tscn" id="2_r0jtg"]
+[ext_resource type="Script" path="res://scripts/system/fireToGameManager.gd" id="3_kipti"]
+
+[node name="QthuluSpawner" type="Node2D"]
+z_as_relative = false
+y_sort_enabled = true
+script = ExtResource("1_cxq21")
+qthuluToSpawn = ExtResource("2_r0jtg")
+
+[node name="QthulhuSpawnerToGameManager" type="Node" parent="."]
+script = ExtResource("3_kipti")

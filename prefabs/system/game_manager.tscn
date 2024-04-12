@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://clx7r0uiwo6l1"]
+
+[ext_resource type="Script" path="res://scripts/system/gameManager.gd" id="1_7s2a7"]
+[ext_resource type="Script" path="res://scripts/system/timerSlider.gd" id="2_wejpj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxqwk"]
+bg_color = Color(0.6, 0.6, 0.6, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35cje"]
+bg_color = Color(1, 0, 0, 0.392157)
+
+[node name="GameManager" type="Node"]
+script = ExtResource("1_7s2a7")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -165.0
+offset_top = -5.0
+offset_right = 165.0
+offset_bottom = 15.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xxqwk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_35cje")
+show_percentage = false
+script = ExtResource("2_wejpj")
+
+[node name="ScoreText" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_bottom = 23.0
+grow_horizontal = 0
+bbcode_enabled = true
+text = "[right]0[/right]"
+fit_content = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

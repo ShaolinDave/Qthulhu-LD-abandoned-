@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cutvxju0f7gtk"]
+
+[ext_resource type="Script" path="res://scripts/system/escToQuit.gd" id="1_d1vsf"]
+[ext_resource type="AudioStream" uid="uid://dgecj4vr47nw5" path="res://audio/system/quit.wav" id="2_xgmh0"]
+
+[node name="EscToQuit" type="Node"]
+script = ExtResource("1_d1vsf")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="quitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_xgmh0")
+volume_db = -10.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="quitSound" to="." method="_on_quit_sound_finished"]
